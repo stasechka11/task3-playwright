@@ -13,3 +13,7 @@ package-lock.json
 
 # User credentials file
 user.js
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
