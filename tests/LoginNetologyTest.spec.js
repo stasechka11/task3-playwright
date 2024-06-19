@@ -11,6 +11,11 @@ test("Success login", async ({ page }) => {
   // Go to https://netology.ru/
   await page.goto("https://netology.ru/");
 
+  await page.screenshot({
+    path: "tests/screenshots/"  + Date.now() + "netologyMainPage.png",
+    fullPage: true,
+  });
+
   // Click text=Войти
   await Promise.all([
     page.waitForNavigation(/*{ url: 'https://netology.ru/?modal=sign_in' }*/),
@@ -29,7 +34,7 @@ test("Success login", async ({ page }) => {
   await expect(page).toHaveURL(`https://netology.ru/profile/${id}`);
 
   await expect(page.getByRole("heading", { name: "Моё обучение" })).toBeVisible(
-    { timeout: 20000 },
+    { timeout: 20000 }
   );
 });
 
@@ -43,6 +48,10 @@ test("Login with invalid credentials", async ({ page }) => {
     page.click("text=Войти"),
   ]);
 
+  await page.screenshot({
+    path: "tests/screenshots/"  + Date.now() + "netologyLoginPage.png"
+  });
+
   // Fill [placeholder="Email"]
   await page.fill('[placeholder="Email"]', invalidEmail);
 
@@ -52,9 +61,13 @@ test("Login with invalid credentials", async ({ page }) => {
   // Click [data-testid="login-submit-btn"]
   await page.getByTestId("login-submit-btn").click();
 
+  await page.screenshot({
+    path: "tests/screenshots/"  + Date.now() + "netologyFailedLogin.png"
+  });
+
   await expect(page.getByTestId("login-error-hint")).toBeVisible();
 
   await expect(page.getByTestId("login-error-hint")).toContainText(
-    "Вы ввели неправильно логин или пароль",
+    "Вы ввели неправильно логин или пароль"
   );
 });
